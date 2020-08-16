@@ -8,7 +8,7 @@ let dbx = (rootpath) => {
         if (pool) {
             return pool
         }
-        pool = await postgres({
+        pool = await new postgres({
             connectionLimit : 500,
             host: configDB.host,
             port: configDB.port,
