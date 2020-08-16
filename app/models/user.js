@@ -123,6 +123,51 @@ let obj = (objDB, db, rootpath) => {
     }
     // END DATA
 
+
+    // START SCHEDULE
+    fn.insertUserTask = async (data) => {
+        let res = await objDB.insert(db, tbl.task, data, "task_id")
+        return res
+    }
+
+    fn.getUserTask = async (id) => {
+        // prepare sql query
+        let sql = "SELECT * FROM " + tbl.task + " WHERE task_id = $1 LIMIT 1"
+
+        let rows = await db.query(sql, [id])
+        return rows.rows[0]
+    }
+
+    fn.updateUserTask = async (id, data) => {
+        let where = {'cond': 'task_id = $1', 'bind': [id]}
+        return await objDB.update(db, tbl.task, where, data)
+    }
+
+    fn.deleteSoftUserTask = async (id, data) => {
+        let where = {'cond': 'task_id = $1', 'bind': [id]}
+        return await objDB.update(db, tbl.task, where, data)
+    }
+
+    fn.deleteUserTask = async (id) => {
+        let where = {"cond": "task_id = $1", "bind": [id]}
+        return await objDB.delete(db, tbl.task, where)
+    }
+
+    fn.getAllUserTask = async (where = '', data = [], order_by = " task_id ASC ", limit = 0) => {
+        let sql = "SELECT * FROM " + tbl.task + " WHERE 1=1 " + where + " ORDER BY " + order_by
+
+        let result = await objDB.getAll(db, sql, data, limit)
+        return result
+    }
+
+    fn.getPagingUserTask = async (where = '', data = [], order_by = " task_id ASC ", page_no = 0, no_per_page = 0) => {
+        let paging = loadLib('sanitize').pagingNumber(page_no, no_per_page)
+        let sql = "SELECT task.* FROM " + tbl.task + " WHERE 1=1 " + where + " ORDER BY " + order_by
+        let result = await objDB.getPaging(db, sql, data, paging.page_no, paging.no_per_page)
+        return result
+    }
+    // END DATA
+
     // BEGIN REGISTRATION
     fn.registration = async (data) => {
         let moment = require('moment')

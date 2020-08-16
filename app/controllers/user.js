@@ -294,11 +294,215 @@ let obj = (rootpath) => {
             res.success(getMessage('udt008'))
         } catch (e) {next(e)}
     }
-
-
     // END DATA
 
-    return fn
-}
+    // START SCHEDULE
+    fn.getUserTask = async (req, res, next) => {
+        try {
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+            let udata = parseInt(req.params.task_id) || 0
+            if (udata <= 0) {
+                throw getMessage('udt001')
+            }
+            // validate if address exists
+            let result = await req.model('user').getUserTask(udata)
+            if (!result) {
+                throw getMessage('udt004')
+            }
+            // validate if address belongs to loggedin user using not found error message
+            if (result.user_id != user_id) {
+                throw getMessage('udt004')
+            }
 
+            res.success(result)
+        } catch (e) {next(e)}
+    }
+
+    fn.getAllUserTask = async (req, res, next) => {
+        try {
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+
+            let keyword = req.query.keyword || ''
+            keyword = '%' + keyword + '%'
+            let where = ' AND is_deleted = $1 AND user_id = $2 AND (udata_username LIKE $3 OR udata_account LIKE $4) '
+            let data = [false, user_id, keyword, keyword]
+            let order_by = ' udata_id ASC '
+            let result = await req.model('user').getAllUserTask(where, data, order_by)
+
+            res.success(result)
+        } catch(e) {next(e)}
+    }
+
+    fn.getPagingUserTask = async (req, res, next) => {
+        try {
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+
+            let keyword = req.query.keyword || ''
+            keyword = '%' + keyword + '%'
+            let where = ' AND is_deleted = $1 AND user_id = $2 AND (udata_username LIKE $3 OR udata_account LIKE $4) '
+            let data = [false, user_id, keyword, keyword]
+            let order_by = ' udata_id ASC '
+            let page_no = req.query.page || 0
+            let no_per_page = req.query.perpage || 0
+            let result = await req.model('user').getPagingUserTask(
+                where,
+                data,
+                order_by,
+                page_no,
+                no_per_page
+            )
+
+            res.success(result)
+        } catch(e) {next(e)}
+    }
+
+    fn.createUserTask = async (req, res, next) => {
+        try {
+            let validator = require('validator')
+            let moment = require('moment')
+            let now = moment().format('YYYY-MM-DD HH:mm:ss')
+
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+
+            // get parameter
+            let description = (req.body.description || '').trim()
+            let location = (req.body.password || '')
+            let start_at = (req.body.start_at || '')
+            let end_at = (req.body.end_at || '')
+            
+            // set variable to insert
+            let data = {
+                user_id : user_id,
+                description : description,
+                location: location,
+                time: start_at,
+                start_at: start_at,
+                end_at: end_at,
+                status: 'INCOMPLETE',
+                created_date: now
+            }
+
+            let udata_id = await req.model('user').insertUserTask(data)
+            console.log(udata_id)
+            let result = await req.model('user').getUserTask(udata_id.task_id)
+            console.log(result)
+            res.success(result)
+        } catch(e) {
+            next(e)
+        }
+    // END SCHEDULE
+    }
+
+    fn.updateUserTask = async (req, res, next) => {
+        try {
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+            let udata_id = parseInt(req.params.task_id) || 0
+            if (udata_id <= 0) {
+                throw getMessage('udt001')
+            }
+            // validate if data exists
+            let UserTask = await req.model('user').getUserTask(udata_id)
+            if (!UserTask) {
+                throw getMessage('udt004')
+            }
+            // validate if data belongs to loggedin user
+            if (UserTask.user_id != user_id) {
+                throw getMessage('udt005')
+            }
+
+            let data = {
+                udata_account: (req.body.account || '').trim(),
+                udata_username: (req.body.username || '').trim(),
+                udata_password: (req.body.password || '').trim(),
+                updated_date: moment().format('YYYY-MM-DD HH:mm:ss')
+            }
+
+            await req.model('user').updateUserTask(udata_id, data)
+            let result = await req.model('user').getUserTask(udata_id)
+            res.success(result)
+        } catch(e) {next(e)}
+    }
+
+    fn.deleteUserTask = async (req, res, next) => {
+        try {
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+            let udata_id = parseInt(req.params.task_id) || 0
+            if (udata_id <= 0) {
+                throw getMessage('udt001')
+            }
+            // validate if UserTask exists
+            let UserTask = await req.model('user').getUserTask(udata_id)
+            if (!UserTask) {
+                throw getMessage('udt004')
+            }
+            // validate if UserTask belongs to loggedin user
+            if (UserTask.user_id != user_id) {
+                throw getMessage('udt006')
+            }
+            // validate UserTask records must be more than 1 before delete
+            let all_UserTask = await req.model('user').getAllUserTask(' AND is_deleted = $1 AND user_id = $2 ', [false, user_id])
+            if (all_UserTask.length < 1) {
+                throw getMessage('udt009')
+            }
+
+            await req.model('user').deleteUserTask(udata_id)
+            res.success(getMessage('udt008'))
+        } catch (e) {next(e)}
+    }
+
+    fn.deleteSoftUserTask = async (req, res, next) => {
+        try {
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+            let udata_id = parseInt(req.params.task_id) || 0
+            if (udata_id <= 0) {
+                throw getMessage('udt001')
+            }
+            // validate if UserTask exists
+            let UserTask = await req.model('user').getUserTask(udata_id)
+            if (!UserTask) {
+                throw getMessage('udt004')
+            }
+            // validate if UserTask belongs to loggedin user
+            if (UserTask.user_id != user_id) {
+                throw getMessage('udt006')
+            }
+            // validate if UserTask already deleted or not
+            if (UserTask.is_deleted == true) {
+                throw getMessage('udt010')
+            }
+            // validate UserTask records must be more than 1 before delete
+            let all_UserTask = await req.model('user').getAllUserTask(' AND is_deleted = $1 AND user_id = $2 ', [false, user_id])
+            if (all_UserTask.length < 1) {
+                throw getMessage('udt009')
+            }
+
+            await req.model('user').deleteSoftUserTask(udata_id, {is_deleted : true})
+            res.success(getMessage('udt008'))
+        } catch (e) {next(e)}
+    }
+    // END SCHEDULE
+
+    return fn;
+}
 module.exports = obj
