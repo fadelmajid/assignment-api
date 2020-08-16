@@ -132,7 +132,7 @@ let obj = (objDB, db, rootpath) => {
 
     fn.getUserTask = async (id) => {
         // prepare sql query
-        let sql = "SELECT * FROM " + tbl.task + " WHERE task_id = $1 LIMIT 1"
+        let sql = "SELECT * FROM " + tbl.task + " WHERE task_id = $1 AND is_deleted = false LIMIT 1"
 
         let rows = await db.query(sql, [id])
         return rows.rows[0]

@@ -330,9 +330,9 @@ let obj = (rootpath) => {
 
             let keyword = req.query.keyword || ''
             keyword = '%' + keyword + '%'
-            let where = ' AND is_deleted = $1 AND user_id = $2 AND (udata_username LIKE $3 OR udata_account LIKE $4) '
-            let data = [false, user_id, keyword, keyword]
-            let order_by = ' udata_id ASC '
+            let where = ' AND is_deleted = $1 AND user_id = $2 AND location LIKE $3'
+            let data = [false, user_id, keyword]
+            let order_by = ' task_id DESC '
             let result = await req.model('user').getAllUserTask(where, data, order_by)
 
             res.success(result)
@@ -348,9 +348,9 @@ let obj = (rootpath) => {
 
             let keyword = req.query.keyword || ''
             keyword = '%' + keyword + '%'
-            let where = ' AND is_deleted = $1 AND user_id = $2 AND (udata_username LIKE $3 OR udata_account LIKE $4) '
-            let data = [false, user_id, keyword, keyword]
-            let order_by = ' udata_id ASC '
+            let where = ' AND is_deleted = $1 AND user_id = $2 AND location LIKE $3'
+            let data = [false, user_id, keyword]
+            let order_by = ' task_id DESC '
             let page_no = req.query.page || 0
             let no_per_page = req.query.perpage || 0
             let result = await req.model('user').getPagingUserTask(
@@ -411,29 +411,31 @@ let obj = (rootpath) => {
             if (user_id <= 0) {
                 throw getMessage('usr006')
             }
-            let udata_id = parseInt(req.params.task_id) || 0
-            if (udata_id <= 0) {
+            let task_id = parseInt(req.params.task_id) || 0
+            if (task_id <= 0) {
                 throw getMessage('udt001')
             }
             // validate if data exists
-            let UserTask = await req.model('user').getUserTask(udata_id)
+            let UserTask = await req.model('user').getUserTask(task_id)
             if (!UserTask) {
                 throw getMessage('udt004')
             }
+            
             // validate if data belongs to loggedin user
             if (UserTask.user_id != user_id) {
                 throw getMessage('udt005')
             }
 
             let data = {
-                udata_account: (req.body.account || '').trim(),
-                udata_username: (req.body.username || '').trim(),
-                udata_password: (req.body.password || '').trim(),
+                description: (req.body.description || '').trim(),
+                location:(req.body.password || ''),
+                start_at: (req.body.start_at || ''),
+                end_at:(req.body.end_at || ''),
                 updated_date: moment().format('YYYY-MM-DD HH:mm:ss')
             }
 
-            await req.model('user').updateUserTask(udata_id, data)
-            let result = await req.model('user').getUserTask(udata_id)
+            await req.model('user').updateUserTask(task_id, data)
+            let result = await req.model('user').getUserTask(task_id)
             res.success(result)
         } catch(e) {next(e)}
     }
@@ -444,12 +446,12 @@ let obj = (rootpath) => {
             if (user_id <= 0) {
                 throw getMessage('usr006')
             }
-            let udata_id = parseInt(req.params.task_id) || 0
-            if (udata_id <= 0) {
+            let task_id = parseInt(req.params.task_id) || 0
+            if (task_id <= 0) {
                 throw getMessage('udt001')
             }
             // validate if UserTask exists
-            let UserTask = await req.model('user').getUserTask(udata_id)
+            let UserTask = await req.model('user').getUserTask(task_id)
             if (!UserTask) {
                 throw getMessage('udt004')
             }
@@ -463,7 +465,7 @@ let obj = (rootpath) => {
                 throw getMessage('udt009')
             }
 
-            await req.model('user').deleteUserTask(udata_id)
+            await req.model('user').deleteUserTask(task_id)
             res.success(getMessage('udt008'))
         } catch (e) {next(e)}
     }
@@ -474,12 +476,12 @@ let obj = (rootpath) => {
             if (user_id <= 0) {
                 throw getMessage('usr006')
             }
-            let udata_id = parseInt(req.params.task_id) || 0
-            if (udata_id <= 0) {
+            let task_id = parseInt(req.params.task_id) || 0
+            if (task_id <= 0) {
                 throw getMessage('udt001')
             }
             // validate if UserTask exists
-            let UserTask = await req.model('user').getUserTask(udata_id)
+            let UserTask = await req.model('user').getUserTask(task_id)
             if (!UserTask) {
                 throw getMessage('udt004')
             }
@@ -497,7 +499,7 @@ let obj = (rootpath) => {
                 throw getMessage('udt009')
             }
 
-            await req.model('user').deleteSoftUserTask(udata_id, {is_deleted : true})
+            await req.model('user').deleteSoftUserTask(task_id, {is_deleted : true})
             res.success(getMessage('udt008'))
         } catch (e) {next(e)}
     }
