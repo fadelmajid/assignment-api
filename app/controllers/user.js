@@ -394,7 +394,7 @@ let obj = (rootpath) => {
     fn.createUserTask = async (req, res, next) => {
         try {
             let moment = require('moment')
-            let now = moment().format('YYYY-MM-DD HH:mm:ss')
+            let now = moment().utc().format('YYYY-MM-DD HH:mm:ss')
 
             let user_id = parseInt(req.objUser.user_id) || 0
             if (user_id <= 0) {
@@ -423,14 +423,30 @@ let obj = (rootpath) => {
                 throw getMessage('end_at is empty')
             }
          
+
+            if(_.isEmpty(start_at)){
+                throw getMessage('start_at is empty')
+            }
+
+            start_at = moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ')
+            end_at = moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ')
+
+            if(!moment(start_at).isAfter(now)){
+                throw getMessage('start_at should after now')
+            }
+
+            if(!moment(end_at).isAfter(start_at)){
+                throw getMessage('end_at should after start_at')
+            }
+
             // set variable to insert
             let data = {
                 user_id : user_id,
                 description : description,
                 location: location,
-                time: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
-                start_at: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
-                end_at: moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                time: start_at,
+                start_at: start_at,
+                end_at: end_at,
                 status: 'INCOMPLETE',
                 created_date: now
             }
