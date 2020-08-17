@@ -1,12 +1,8 @@
 "use strict"
+
+const _ = require('underscore')
+
 let obj = (rootpath) => {
-    const moment = require('moment')
-    const cst = require(rootpath + '/config/const.json')
-    const config = require(rootpath + '/config/config.json')
-    const multer = require('multer')
-    const path = require('path')
-    const validator = require('validator')
-    const fs = require('fs-extra')
     const fn = {}
 
     // BEGIN PROFILE
@@ -323,15 +319,30 @@ let obj = (rootpath) => {
 
     fn.getAllUserTask = async (req, res, next) => {
         try {
+            let moment = require('moment')
             let user_id = parseInt(req.objUser.user_id) || 0
             if (user_id <= 0) {
                 throw getMessage('usr006')
             }
 
-            let keyword = req.query.keyword || ''
-            keyword = '%' + keyword + '%'
-            let where = ' AND is_deleted = $1 AND user_id = $2 AND location LIKE $3'
-            let data = [false, user_id, keyword]
+            let location = req.query.location || ''
+            let time = req.query.time || ''
+
+            let where = ' AND is_deleted = $1 AND user_id = $2 '
+            let data = [false, user_id]
+
+            let counter = 3
+            if(!_.isEmpty(location)){
+                where += ' AND location LIKE $' + counter
+                data.push('%' + location + '%')
+                counter += 1
+            }
+
+            if(!_.isEmpty(time)){
+                where += ' AND time >= $' + counter
+                data.push(moment.utc(time).format('YYYY-MM-DDTHH:mm:ss.sssZ'))
+            }
+
             let order_by = ' task_id DESC '
             let result = await req.model('user').getAllUserTask(where, data, order_by)
 
@@ -341,15 +352,30 @@ let obj = (rootpath) => {
 
     fn.getPagingUserTask = async (req, res, next) => {
         try {
+            let moment = require('moment')
             let user_id = parseInt(req.objUser.user_id) || 0
             if (user_id <= 0) {
                 throw getMessage('usr006')
             }
 
-            let keyword = req.query.keyword || ''
-            keyword = '%' + keyword + '%'
-            let where = ' AND is_deleted = $1 AND user_id = $2 AND location LIKE $3'
-            let data = [false, user_id, keyword]
+            let location = req.query.location || ''
+            let time = req.query.time || ''
+
+            let where = ' AND is_deleted = $1 AND user_id = $2 '
+            let data = [false, user_id]
+
+            let counter = 3
+            if(!_.isEmpty(location)){
+                where += ' AND location LIKE $' + counter
+                data.push('%' + location + '%')
+                counter += 1
+            }
+
+            if(!_.isEmpty(time)){
+                where += ' AND time >= $' + counter
+                data.push(moment.utc(time).format('YYYY-MM-DDTHH:mm:ss.sssZ'))
+            }
+
             let order_by = ' task_id DESC '
             let page_no = req.query.page || 0
             let no_per_page = req.query.perpage || 0
@@ -378,26 +404,24 @@ let obj = (rootpath) => {
 
             // get parameter
             let description = (req.body.description || '').trim()
-            let location = (req.body.password || '')
+            let location = (req.body.location || '')
             let start_at = (req.body.start_at || '')
             let end_at = (req.body.end_at || '')
-            
+         
             // set variable to insert
             let data = {
                 user_id : user_id,
                 description : description,
                 location: location,
-                time: start_at,
-                start_at: start_at,
-                end_at: end_at,
+                time: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                start_at: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                end_at: moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
                 status: 'INCOMPLETE',
                 created_date: now
             }
 
             let udata_id = await req.model('user').insertUserTask(data)
-            console.log(udata_id)
             let result = await req.model('user').getUserTask(udata_id.task_id)
-            console.log(result)
             res.success(result)
         } catch(e) {
             next(e)
@@ -407,6 +431,7 @@ let obj = (rootpath) => {
 
     fn.updateUserTask = async (req, res, next) => {
         try {
+            let moment = require('moment')
             let user_id = parseInt(req.objUser.user_id) || 0
             if (user_id <= 0) {
                 throw getMessage('usr006')
@@ -426,11 +451,16 @@ let obj = (rootpath) => {
                 throw getMessage('udt005')
             }
 
+            let description = (req.body.description || UserTask.description).trim()
+            let location = (req.body.location || UserTask.location)
+            let start_at = (req.body.start_at || UserTask.start_at)
+            let end_at = (req.body.end_at || UserTask.end_at)
+
             let data = {
-                description: (req.body.description || '').trim(),
-                location:(req.body.password || ''),
-                start_at: (req.body.start_at || ''),
-                end_at:(req.body.end_at || ''),
+                description: description,
+                location: location,
+                start_at: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                end_at: moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
                 updated_date: moment().format('YYYY-MM-DD HH:mm:ss')
             }
 
