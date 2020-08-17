@@ -24,6 +24,7 @@ module.exports = (app) => {
         {method: 'get', route: '/task/:task_id', inits: [], middlewares: [userController.getUserTask], auth: 'login'},
         {method: 'get', route: '/task', inits: [], middlewares: [userController.getPagingUserTask], auth: 'login'},
         {method: 'post', route: '/task', inits: [], middlewares: [userController.createUserTask], auth: 'login'},
+        {method: 'post', route: '/task/multiple', inits: [], middlewares: [userController.createMultipleUserTask], auth: 'login'},
         {method: 'put', route: '/task/:task_id', inits: [], middlewares: [userController.updateUserTask], auth: 'login'},
         {method: 'delete', route: '/task/:task_id', inits: [], middlewares: [userController.deleteUserTask], auth: 'login'},
         {method: 'delete', route: '/task/temp/:task_id', inits: [], middlewares: [userController.deleteSoftUserTask], auth: 'login'},

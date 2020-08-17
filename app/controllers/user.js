@@ -454,6 +454,84 @@ let obj = (rootpath) => {
         }
     }
 
+    fn.createMultipleUserTask = async (req, res, next) => {
+        try {
+            let moment = require('moment')
+            let now = moment().format('YYYY-MM-DD HH:mm:ss')
+
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+
+            let test = req.body.data || []
+
+            if(_.isEmpty(test)){
+                throw getMessage('Empty data')
+            }
+
+            let promise = []
+            for(let i = 0; i < test.length; i++){
+                let description = (test[i].description || '').trim()
+                let location = (test[i].location || '')
+                let start_at = (test[i].start_at || '')
+                let end_at = (test[i].end_at || '')
+
+                if(_.isEmpty(description)){
+                    throw getMessage('description is empty')
+                }
+
+                if(_.isEmpty(location)){
+                    throw getMessage('location is empty')
+                }
+
+                if(_.isEmpty(start_at)){
+                    throw getMessage('start_at is empty')
+                }
+
+                if(_.isEmpty(end_at)){
+                    throw getMessage('end_at is empty')
+                }
+            
+                // set variable to insert
+                let createddata = {
+                    user_id : user_id,
+                    description : description,
+                    location: location,
+                    time: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                    start_at: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                    end_at: moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+                    status: 'INCOMPLETE',
+                    created_date: now
+                }
+
+                let where = ' AND is_deleted = $1 AND user_id = $2 AND start_at >= $3 AND end_at <= $4  '
+                let prevData = [false, user_id, createddata.start_at, createddata.end_at]
+                let previousData = await req.model('user').getAllUserTask(where, prevData)
+
+                if(!_.isEmpty(previousData)){
+                    throw {
+                        ...getMessage('there is an existing task in the same time'),
+                        data: previousData
+                    }
+                }
+
+                promise.push(req.model('user').insertUserTask(createddata));
+            }
+
+            let result = [];
+            let promiseRes = await Promise.all(promise);
+            for(let i = 0; i < promiseRes.length; i++){
+                let getData = await req.model('user').getUserTask(promiseRes[i].task_id)
+                result.push(getData)
+            }
+
+            res.success(result)
+        } catch(e) {
+            next(e)
+        }
+    }
+
     fn.updateUserTask = async (req, res, next) => {
         try {
             let moment = require('moment')
