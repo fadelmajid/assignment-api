@@ -393,7 +393,6 @@ let obj = (rootpath) => {
 
     fn.createUserTask = async (req, res, next) => {
         try {
-            let validator = require('validator')
             let moment = require('moment')
             let now = moment().format('YYYY-MM-DD HH:mm:ss')
 
@@ -407,6 +406,22 @@ let obj = (rootpath) => {
             let location = (req.body.location || '')
             let start_at = (req.body.start_at || '')
             let end_at = (req.body.end_at || '')
+
+            if(_.isEmpty(description)){
+                throw getMessage('description is empty')
+            }
+
+            if(_.isEmpty(location)){
+                throw getMessage('location is empty')
+            }
+
+            if(_.isEmpty(start_at)){
+                throw getMessage('start_at is empty')
+            }
+
+            if(_.isEmpty(end_at)){
+                throw getMessage('end_at is empty')
+            }
          
             // set variable to insert
             let data = {
@@ -420,13 +435,23 @@ let obj = (rootpath) => {
                 created_date: now
             }
 
+            let where = ' AND is_deleted = $1 AND user_id = $2 AND start_at >= $3 AND end_at <= $4  '
+            let prevData = [false, user_id, data.start_at, data.end_at]
+            let previousData = await req.model('user').getAllUserTask(where, prevData)
+
+            if(!_.isEmpty(previousData)){
+                throw {
+                    ...getMessage('there is an existing task in the same time'),
+                    data: previousData
+                }
+            }
+
             let udata_id = await req.model('user').insertUserTask(data)
             let result = await req.model('user').getUserTask(udata_id.task_id)
             res.success(result)
         } catch(e) {
             next(e)
         }
-    // END SCHEDULE
     }
 
     fn.updateUserTask = async (req, res, next) => {
@@ -456,12 +481,39 @@ let obj = (rootpath) => {
             let start_at = (req.body.start_at || UserTask.start_at)
             let end_at = (req.body.end_at || UserTask.end_at)
 
+            if(_.isEmpty(description)){
+                throw getMessage('description is empty')
+            }
+
+            if(_.isEmpty(location)){
+                throw getMessage('location is empty')
+            }
+
+            if(_.isEmpty(start_at)){
+                throw getMessage('start_at is empty')
+            }
+
+            if(_.isEmpty(end_at)){
+                throw getMessage('end_at is empty')
+            }
+            
             let data = {
                 description: description,
                 location: location,
                 start_at: moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
                 end_at: moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ'),
                 updated_date: moment().format('YYYY-MM-DD HH:mm:ss')
+            }
+
+            let where = ' AND is_deleted = $1 AND user_id = $2 AND start_at >= $3 AND end_at <= $4  AND task_id != $5 '
+            let prevData = [false, user_id, data.start_at, data.end_at, task_id]
+            let previousData = await req.model('user').getAllUserTask(where, prevData)
+
+            if(!_.isEmpty(previousData)){
+                throw {
+                    ...getMessage('there is an existing task in the same time'),
+                    data: previousData
+                }
             }
 
             await req.model('user').updateUserTask(task_id, data)
