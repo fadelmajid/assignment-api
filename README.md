@@ -44,5 +44,5 @@ available on file Assigment API.odt
 
 TESTING
 -----------
-available automation testing with mochajs & chaijs just for the library. if you already run "node index.js", you can run
-the test by "npm test" on folder test in different terminal
+available automation testing with mochajs & chaijs just for the library. You can run
+the test by "npm test"
