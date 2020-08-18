@@ -69,5 +69,22 @@
     {"udt007": "Data was successfully updated."},
     {"udt008": "Data was successfully deleted."},
     {"udt009": "You must have at least 1 data."},
-    {"udt010": "Data already deleted."}
+    {"udt010": "Data already deleted."},
+
+
+    {"task001": "Task ID is required."},
+    {"task002": "Description is required."},
+    {"task003": "Location is required."},
+    {"task004": "Data not found"},
+    {"task005": "You are not allowed to change this data."},
+    {"task006": "You are not allowed to delete this data."},
+    {"task007": "Data was successfully updated."},
+    {"task008": "Data was successfully deleted."},
+    {"task009": "You must have at least 1 data."},
+    {"task010": "Data already deleted."},
+    {"task011": "Start at is required."},
+    {"task012": "End at is required."},
+    {"task013": "the specified time must be greater than the current time (Start at > Now)"},
+    {"task014": "the specified time must be greater than the current time (End at > Start at)"},
+    {"task015": "there is an existing task in the same time"}
 ]

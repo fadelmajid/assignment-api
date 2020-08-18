@@ -301,16 +301,16 @@ let obj = (rootpath) => {
             }
             let udata = parseInt(req.params.task_id) || 0
             if (udata <= 0) {
-                throw getMessage('udt001')
+                throw getMessage('task001')
             }
             // validate if address exists
             let result = await req.model('user').getUserTask(udata)
             if (!result) {
-                throw getMessage('udt004')
+                throw getMessage('task004')
             }
             // validate if address belongs to loggedin user using not found error message
             if (result.user_id != user_id) {
-                throw getMessage('udt004')
+                throw getMessage('task005')
             }
 
             res.success(result)
@@ -408,35 +408,30 @@ let obj = (rootpath) => {
             let end_at = (req.body.end_at || '')
 
             if(_.isEmpty(description)){
-                throw getMessage('description is empty')
+                throw getMessage('task002')
             }
 
             if(_.isEmpty(location)){
-                throw getMessage('location is empty')
+                throw getMessage('task003')
             }
 
             if(_.isEmpty(start_at)){
-                throw getMessage('start_at is empty')
+                throw getMessage('task011')
             }
 
             if(_.isEmpty(end_at)){
-                throw getMessage('end_at is empty')
-            }
-         
-
-            if(_.isEmpty(start_at)){
-                throw getMessage('start_at is empty')
+                throw getMessage('task012')
             }
 
             start_at = moment.utc(start_at).format('YYYY-MM-DDTHH:mm:ss.sssZ')
             end_at = moment.utc(end_at).format('YYYY-MM-DDTHH:mm:ss.sssZ')
 
             if(!moment(start_at).isAfter(now)){
-                throw getMessage('start_at should after now')
+                throw getMessage('task013')
             }
 
             if(!moment(end_at).isAfter(start_at)){
-                throw getMessage('end_at should after start_at')
+                throw getMessage('task014')
             }
 
             // set variable to insert
@@ -457,7 +452,7 @@ let obj = (rootpath) => {
 
             if(!_.isEmpty(previousData)){
                 throw {
-                    ...getMessage('there is an existing task in the same time'),
+                    ...getMessage('task015'),
                     data: previousData
                 }
             }
@@ -483,7 +478,7 @@ let obj = (rootpath) => {
             let test = req.body.data || []
 
             if(_.isEmpty(test)){
-                throw getMessage('Empty data')
+                throw getMessage('task009')
             }
 
             let promise = []
@@ -492,23 +487,23 @@ let obj = (rootpath) => {
                 let location = (test[i].location || '')
                 let start_at = (test[i].start_at || '')
                 let end_at = (test[i].end_at || '')
-
+        
                 if(_.isEmpty(description)){
-                    throw getMessage('description is empty')
+                    throw getMessage('task002')
                 }
-
+    
                 if(_.isEmpty(location)){
-                    throw getMessage('location is empty')
+                    throw getMessage('task003')
                 }
-
+    
                 if(_.isEmpty(start_at)){
-                    throw getMessage('start_at is empty')
+                    throw getMessage('task011')
                 }
-
+    
                 if(_.isEmpty(end_at)){
-                    throw getMessage('end_at is empty')
+                    throw getMessage('task012')
                 }
-            
+    
                 // set variable to insert
                 let createddata = {
                     user_id : user_id,
@@ -527,7 +522,7 @@ let obj = (rootpath) => {
 
                 if(!_.isEmpty(previousData)){
                     throw {
-                        ...getMessage('there is an existing task in the same time'),
+                        ...getMessage('task015'),
                         data: previousData
                     }
                 }
@@ -562,12 +557,12 @@ let obj = (rootpath) => {
             // validate if data exists
             let UserTask = await req.model('user').getUserTask(task_id)
             if (!UserTask) {
-                throw getMessage('udt004')
+                throw getMessage('task004')
             }
             
             // validate if data belongs to loggedin user
             if (UserTask.user_id != user_id) {
-                throw getMessage('udt005')
+                throw getMessage('task005')
             }
 
             let description = (req.body.description || UserTask.description).trim()
@@ -576,19 +571,19 @@ let obj = (rootpath) => {
             let end_at = (req.body.end_at || UserTask.end_at)
 
             if(_.isEmpty(description)){
-                throw getMessage('description is empty')
+                throw getMessage('task002')
             }
 
             if(_.isEmpty(location)){
-                throw getMessage('location is empty')
+                throw getMessage('task003')
             }
 
             if(_.isEmpty(start_at)){
-                throw getMessage('start_at is empty')
+                throw getMessage('task011')
             }
 
             if(_.isEmpty(end_at)){
-                throw getMessage('end_at is empty')
+                throw getMessage('task012')
             }
             
             let data = {
@@ -605,7 +600,7 @@ let obj = (rootpath) => {
 
             if(!_.isEmpty(previousData)){
                 throw {
-                    ...getMessage('there is an existing task in the same time'),
+                    ...getMessage('task015'),
                     data: previousData
                 }
             }
@@ -624,25 +619,25 @@ let obj = (rootpath) => {
             }
             let task_id = parseInt(req.params.task_id) || 0
             if (task_id <= 0) {
-                throw getMessage('udt001')
+                throw getMessage('task001')
             }
             // validate if UserTask exists
             let UserTask = await req.model('user').getUserTask(task_id)
             if (!UserTask) {
-                throw getMessage('udt004')
+                throw getMessage('task004')
             }
             // validate if UserTask belongs to loggedin user
             if (UserTask.user_id != user_id) {
-                throw getMessage('udt006')
+                throw getMessage('task006')
             }
             // validate UserTask records must be more than 1 before delete
             let all_UserTask = await req.model('user').getAllUserTask(' AND is_deleted = $1 AND user_id = $2 ', [false, user_id])
             if (all_UserTask.length < 1) {
-                throw getMessage('udt009')
+                throw getMessage('task009')
             }
 
             await req.model('user').deleteUserTask(task_id)
-            res.success(getMessage('udt008'))
+            res.success(getMessage('task008'))
         } catch (e) {next(e)}
     }
 
@@ -654,29 +649,29 @@ let obj = (rootpath) => {
             }
             let task_id = parseInt(req.params.task_id) || 0
             if (task_id <= 0) {
-                throw getMessage('udt001')
+                throw getMessage('task001')
             }
             // validate if UserTask exists
             let UserTask = await req.model('user').getUserTask(task_id)
             if (!UserTask) {
-                throw getMessage('udt004')
+                throw getMessage('task004')
             }
             // validate if UserTask belongs to loggedin user
             if (UserTask.user_id != user_id) {
-                throw getMessage('udt006')
+                throw getMessage('task006')
             }
             // validate if UserTask already deleted or not
             if (UserTask.is_deleted == true) {
-                throw getMessage('udt010')
+                throw getMessage('task010')
             }
             // validate UserTask records must be more than 1 before delete
             let all_UserTask = await req.model('user').getAllUserTask(' AND is_deleted = $1 AND user_id = $2 ', [false, user_id])
             if (all_UserTask.length < 1) {
-                throw getMessage('udt009')
+                throw getMessage('task009')
             }
 
             await req.model('user').deleteSoftUserTask(task_id, {is_deleted : true})
-            res.success(getMessage('udt008'))
+            res.success(getMessage('task008'))
         } catch (e) {next(e)}
     }
     // END SCHEDULE
