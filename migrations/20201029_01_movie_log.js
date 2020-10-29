@@ -15,16 +15,20 @@ module.exports = {
                     type: Sequelize.STRING,
                     allowNull: false
                 },
+                method: {
+                    type: Sequelize.STRING,
+                    allowNull: false
+                },
                 type: {
                     type: Sequelize.STRING,
                     allowNull: false
                 },
                 request: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.TEXT,
                     allowNull: false
                 },
                 response: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.TEXT,
                     allowNull: false
                 },
                 created_date: {

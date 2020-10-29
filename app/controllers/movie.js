@@ -14,6 +14,11 @@ let obj = (rootpath) => {
             let search = req.query.s || ''
             let p = req.query.page || 1
 
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+
             // validate search
             if(validator.isEmpty(search)){
                 throw getMessage('Search tidak boleh kosong')
@@ -32,12 +37,13 @@ let obj = (rootpath) => {
 
             let log = {
                 url: data.url,
+                method: 'GET',
                 type: "SUCCESS",
                 request: {
                     s: search,
                     page: p
                 },
-                response: JSON.stringify(result),
+                response: JSON.stringify(result.data),
                 created_date: moment().format('YYYY-MM-DD HH:mm:ss')
             }
 
@@ -61,6 +67,11 @@ let obj = (rootpath) => {
             let movie_id = req.query.i || ''
             let title = req.query.t || ''
 
+            let user_id = parseInt(req.objUser.user_id) || 0
+            if (user_id <= 0) {
+                throw getMessage('usr006')
+            }
+
             // validate search
             if(validator.isEmpty(movie_id) && validator.isEmpty(title)){
                 throw getMessage('Movie ID / title tidak boleh kosong')
@@ -79,12 +90,13 @@ let obj = (rootpath) => {
 
             let log = {
                 url: data.url,
+                method: 'GET',
                 type: "SUCCESS",
                 request: {
                     i: movie_id,
                     t: title
                 },
-                response: JSON.stringify(result),
+                response: JSON.stringify(result.data),
                 created_date: moment().format('YYYY-MM-DD HH:mm:ss')
             }
 
