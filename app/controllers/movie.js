@@ -3,6 +3,7 @@
 const _ = require('underscore')
 const request = require('axios')
 const validator = require('validator')
+const moment = require('moment')
 
 let obj = (rootpath) => {
     const fn = {}
@@ -29,14 +30,26 @@ let obj = (rootpath) => {
 
             let result = await request.get(`${data.url}?apikey=${config.api_key}&s=${search}&page=${p}`, data.options);
 
+            let log = {
+                url: data.url,
+                type: "SUCCESS",
+                request: {
+                    s: search,
+                    page: p
+                },
+                response: JSON.stringify(result),
+                created_date: moment().format('YYYY-MM-DD HH:mm:ss')
+            }
+
             // validate response
             if(result.data.Response == "False"){
-                await req.model('movie').insertMovieLog();
+                log.type = "ERROR"
+                await req.model('movie').insertMovieLog(log);
                 throw getMessage('Not found')
             }
 
             // log to database
-            await req.model('movie').insertMovieLog();
+            await req.model('movie').insertMovieLog(log);
 
             res.success(result.data)
         } catch (e) {next(e)}
@@ -64,13 +77,26 @@ let obj = (rootpath) => {
 
             let result = await request.get(`${data.url}?apikey=${config.api_key}&i=${movie_id}&t=${title}`, data.options);
 
+            let log = {
+                url: data.url,
+                type: "SUCCESS",
+                request: {
+                    i: movie_id,
+                    t: title
+                },
+                response: JSON.stringify(result),
+                created_date: moment().format('YYYY-MM-DD HH:mm:ss')
+            }
+
             // validate response
             if(result.data.Response == "False"){
+                log.type = "ERROR"
+                await req.model('movie').insertMovieLog(log);
                 throw getMessage('Not found')
             }
 
             // log to database
-            await req.model('movie').insertMovieLog();
+            await req.model('movie').insertMovieLog(log);
 
             res.success(result.data)
         } catch (e) {next(e)}
