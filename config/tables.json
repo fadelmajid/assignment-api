@@ -6,5 +6,6 @@
     "user_data": "user_data",
     "lock_transaction": "lock_transaction",
     "history_device": "history_device",
-    "task": "task"
+    "task": "task",
+    "movie_log": "movie_log"
 }

@@ -2,19 +2,17 @@
 
 const _ = require('underscore')
 const request = require('axios')
-const config = require('../../config/config.json')
 const validator = require('validator')
-const movie = require('../routes/movie')
 
 let obj = (rootpath) => {
     const fn = {}
+    const config = require(rootpath + '/config/config.json')
 
     fn.searchMovie = async (req, res, next) => {
         try {
             let search = req.query.s || ''
             let p = req.query.page || 1
 
-            console.log(search)
             // validate search
             if(validator.isEmpty(search)){
                 throw getMessage('Search tidak boleh kosong')
@@ -33,10 +31,12 @@ let obj = (rootpath) => {
 
             // validate response
             if(result.data.Response == "False"){
+                await req.model('movie').insertMovieLog();
                 throw getMessage('Not found')
             }
 
             // log to database
+            await req.model('movie').insertMovieLog();
 
             res.success(result.data)
         } catch (e) {next(e)}
@@ -63,13 +63,14 @@ let obj = (rootpath) => {
             }
 
             let result = await request.get(`${data.url}?apikey=${config.api_key}&i=${movie_id}&t=${title}`, data.options);
-            
+
             // validate response
             if(result.data.Response == "False"){
                 throw getMessage('Not found')
             }
 
             // log to database
+            await req.model('movie').insertMovieLog();
 
             res.success(result.data)
         } catch (e) {next(e)}
