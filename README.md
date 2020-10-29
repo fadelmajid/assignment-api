@@ -1,4 +1,4 @@
-Assignment API Framework
+Assignment API
 ==============
 
 Setup
@@ -12,23 +12,14 @@ Setup
 7. npm install -g eslint
 8. sequelize db:migrate (before migrate, please make sure there is a scheme with the same name in postgres. in this example the assignment schema)
 9. sequelize db:seed:all
-10. npm start
+10. nodemon index.js
 11. hit http://localhost:8585
+12. if the request stuck, please try to restart `nodemon index.js`
 
-PM2 Setup
-------------
-1. npm install -g pm2
-2. pm2 install pm2-intercom
-3. pm2 start ecosystem.config.js
 
 POSTMAN Collection and Environment
 ------------
 available on folder postman, you can import all the file to postman. (examples of inputs and outputs are available)
-
-CRON - (to delete user data that has changed status, is deleted = true for 3 days)
-------------
-1. cd cronjob
-2. node cron_delete.js / pm2 cron_delete.js
 
 LOGS
 ------------
@@ -45,4 +36,4 @@ available on file Assigment API.odt
 TESTING
 -----------
 available automation testing with mochajs & chaijs just for the library. You can run
-the test by "npm test"
+the test by "mocha test/libs"

@@ -21,7 +21,7 @@ let obj = (rootpath) => {
 
             // validate search
             if(validator.isEmpty(search)){
-                throw getMessage('Search tidak boleh kosong')
+                throw getMessage('mov002')
             }
 
             let data = {
@@ -51,7 +51,7 @@ let obj = (rootpath) => {
             if(result.data.Response == "False"){
                 log.type = "ERROR"
                 await req.model('movie').insertMovieLog(log);
-                throw getMessage('Not found')
+                throw getMessage('mov004')
             }
 
             // log to database
@@ -74,7 +74,7 @@ let obj = (rootpath) => {
 
             // validate search
             if(validator.isEmpty(movie_id) && validator.isEmpty(title)){
-                throw getMessage('Movie ID / title tidak boleh kosong')
+                throw getMessage('mov003')
             }
 
             let data = {
@@ -104,7 +104,7 @@ let obj = (rootpath) => {
             if(result.data.Response == "False"){
                 log.type = "ERROR"
                 await req.model('movie').insertMovieLog(log);
-                throw getMessage('Not found')
+                throw getMessage('mov004')
             }
 
             // log to database

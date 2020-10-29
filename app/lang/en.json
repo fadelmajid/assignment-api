@@ -86,5 +86,10 @@
     {"task012": "End at is required."},
     {"task013": "the specified time must be greater than the current time (Start at > Now)"},
     {"task014": "the specified time must be greater than the current time (End at > Start at)"},
-    {"task015": "there is an existing task in the same time"}
+    {"task015": "there is an existing task in the same time"},
+
+    {"mov001": "Task ID is required."},
+    {"mov002": "Search is required."},
+    {"mov003": "Movie ID / Title is required."},
+    {"mov004": "Data not found"}
 ]
