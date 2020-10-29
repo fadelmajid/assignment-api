@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7f6b3a80-7dbf-4f25-a9ea-cc51a19e2897",
+		"_postman_id": "7df20f8b-3aef-4ae9-84fa-cd55d0bef545",
 		"name": "Assignment",
 		"description": "Request & Response Assignment API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -15,7 +15,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3f7cb1f1-fa90-405e-a5df-91a30e4000c9",
+								"id": "d1e62be1-885c-4914-9e5c-cb09510fc28b",
 								"exec": [
 									""
 								],
@@ -129,7 +129,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "7b2aad63-ebf9-47a1-8dd0-f39e98c6b9a4",
+								"id": "c245340e-b046-43cf-81bb-bce2a9a325b3",
 								"exec": [
 									""
 								],
@@ -239,7 +239,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "4f8ba819-62a1-4bc3-9b91-5b00a258d3f1",
+								"id": "44cdb60c-71a6-4c7e-9b2c-910af1cedaa9",
 								"exec": [
 									""
 								],
@@ -345,7 +345,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "67643466-7814-418e-a72a-3db2ba24a264",
+								"id": "1bd6fdec-38b2-4a1f-a230-56a1ce035d5e",
 								"exec": [
 									""
 								],
@@ -483,7 +483,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66888b4f-bde2-4c0a-ab41-528487c13ca1",
+								"id": "c195dc3d-8129-4b5e-8f5f-c0d065bdd37d",
 								"exec": [
 									""
 								],
@@ -522,7 +522,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"phone\": \"08178881681\",\n\t\"name\": \"john doe\",\n\t\"email\": \"fadelmajid@gmail.com\",\n\t\"password\": \"123123123\"\n}"
+							"raw": "{\n\t\"phone\": \"08178881681\",\n\t\"name\": \"john doe\",\n\t\"email\": \"fadelmajid+1@gmail.com\",\n\t\"password\": \"123123123\"\n}"
 						},
 						"url": {
 							"raw": "{{proto}}://{{domain-url}}/auth/register",
@@ -614,7 +614,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "12b2316a-9086-4847-a745-6e046fa470a3",
+								"id": "c04d55e5-8451-41ab-80f3-45a8b835ddee",
 								"exec": [
 									""
 								],
@@ -749,7 +749,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "3ff731cf-a7b1-4044-8b04-7f24cb3580fb",
+										"id": "4b2ee23c-f5f9-43c7-9747-75edb12d3365",
 										"exec": [
 											""
 										],
@@ -868,7 +868,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "02e1850e-32cc-414a-ab42-a58eb79c96b2",
+										"id": "e6e96ef3-942d-4e84-99df-12a2eacb5325",
 										"exec": [
 											""
 										],
@@ -1196,79 +1196,6 @@
 							},
 							"response": [
 								{
-									"name": "Get all password data with keyword",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Content-Type",
-												"type": "text",
-												"value": "application/json"
-											},
-											{
-												"key": "access-token",
-												"type": "text",
-												"value": "{{access-token}}"
-											},
-											{
-												"key": "app-version",
-												"type": "text",
-												"value": "{{app-version}}"
-											},
-											{
-												"key": "platform",
-												"type": "text",
-												"value": "{{platform}}"
-											}
-										],
-										"url": {
-											"raw": "{{proto}}://{{domain-url}}/user/data/all?keyword=cek",
-											"protocol": "{{proto}}",
-											"host": [
-												"{{domain-url}}"
-											],
-											"path": [
-												"user",
-												"data",
-												"all"
-											],
-											"query": [
-												{
-													"key": "keyword",
-													"value": "cek"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "248"
-										},
-										{
-											"key": "ETag",
-											"value": "W/\"f8-b6pfwFJExw/jB1VGiJz/RsXu2Fk\""
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 04 Aug 2019 03:42:52 GMT"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"status\": \"success\",\n    \"statusCode\": 200,\n    \"payload\": [\n        {\n            \"udata_id\": 1,\n            \"user_id\": 11,\n            \"udata_account\": \"cek\",\n            \"udata_username\": \"cek\",\n            \"udata_password\": \"cek\",\n            \"created_date\": \"2019-08-03T15:29:52.000Z\",\n            \"updated_date\": \"2019-08-04T03:42:39.000Z\",\n            \"is_deleted\": false\n        }\n    ]\n}"
-								},
-								{
 									"name": "Get all password data",
 									"originalRequest": {
 										"method": "GET",
@@ -1340,6 +1267,79 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"status\": \"success\",\n    \"statusCode\": 200,\n    \"payload\": [\n        {\n            \"udata_id\": 1,\n            \"user_id\": 11,\n            \"udata_account\": \"data 1\",\n            \"udata_username\": \"data 1\",\n            \"udata_password\": \"data1\",\n            \"created_date\": \"2019-08-03T15:29:52.000Z\",\n            \"updated_date\": null,\n            \"is_deleted\": false\n        },\n        {\n            \"udata_id\": 5,\n            \"user_id\": 11,\n            \"udata_account\": \"data 1\",\n            \"udata_username\": \"data 1\",\n            \"udata_password\": \"data1\",\n            \"created_date\": \"2019-08-03T18:48:39.000Z\",\n            \"updated_date\": null,\n            \"is_deleted\": false\n        },\n        {\n            \"udata_id\": 6,\n            \"user_id\": 11,\n            \"udata_account\": \"data 1\",\n            \"udata_username\": \"data 1\",\n            \"udata_password\": \"data1\",\n            \"created_date\": \"2019-08-03T18:48:44.000Z\",\n            \"updated_date\": null,\n            \"is_deleted\": false\n        }\n    ]\n}"
+								},
+								{
+									"name": "Get all password data with keyword",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "access-token",
+												"type": "text",
+												"value": "{{access-token}}"
+											},
+											{
+												"key": "app-version",
+												"type": "text",
+												"value": "{{app-version}}"
+											},
+											{
+												"key": "platform",
+												"type": "text",
+												"value": "{{platform}}"
+											}
+										],
+										"url": {
+											"raw": "{{proto}}://{{domain-url}}/user/data/all?keyword=cek",
+											"protocol": "{{proto}}",
+											"host": [
+												"{{domain-url}}"
+											],
+											"path": [
+												"user",
+												"data",
+												"all"
+											],
+											"query": [
+												{
+													"key": "keyword",
+													"value": "cek"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "248"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"f8-b6pfwFJExw/jB1VGiJz/RsXu2Fk\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 04 Aug 2019 03:42:52 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"statusCode\": 200,\n    \"payload\": [\n        {\n            \"udata_id\": 1,\n            \"user_id\": 11,\n            \"udata_account\": \"cek\",\n            \"udata_username\": \"cek\",\n            \"udata_password\": \"cek\",\n            \"created_date\": \"2019-08-03T15:29:52.000Z\",\n            \"updated_date\": \"2019-08-04T03:42:39.000Z\",\n            \"is_deleted\": false\n        }\n    ]\n}"
 								}
 							]
 						},
@@ -2038,7 +2038,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{proto}}://{{domain-url}}/user/task/all?time=2020-08-17T18:00:00.000Z",
+									"raw": "{{proto}}://{{domain-url}}/user/task/all",
 									"protocol": "{{proto}}",
 									"host": [
 										"{{domain-url}}"
@@ -2047,12 +2047,6 @@
 										"user",
 										"task",
 										"all"
-									],
-									"query": [
-										{
-											"key": "time",
-											"value": "2020-08-17T18:00:00.000Z"
-										}
 									]
 								}
 							},
@@ -2152,6 +2146,279 @@
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
+				},
+				{
+					"name": "movie",
+					"item": [
+						{
+							"name": "search movie",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									},
+									{
+										"key": "app-version",
+										"value": "{{app-version}}",
+										"type": "text"
+									},
+									{
+										"key": "platform",
+										"value": "{{platform}}",
+										"type": "text"
+									},
+									{
+										"key": "push-token",
+										"value": "{{push-token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{proto}}://{{domain-url}}/movie/search?s=Superman&page=10",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{domain-url}}"
+									],
+									"path": [
+										"movie",
+										"search"
+									],
+									"query": [
+										{
+											"key": "s",
+											"value": "Superman"
+										},
+										{
+											"key": "page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "search movie",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "access-token",
+												"value": "{{access-token}}",
+												"type": "text"
+											},
+											{
+												"key": "app-version",
+												"value": "{{app-version}}",
+												"type": "text"
+											},
+											{
+												"key": "platform",
+												"value": "{{platform}}",
+												"type": "text"
+											},
+											{
+												"key": "push-token",
+												"value": "{{push-token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{proto}}://{{domain-url}}/movie/search?s=Superman&page=10",
+											"protocol": "{{proto}}",
+											"host": [
+												"{{domain-url}}"
+											],
+											"path": [
+												"movie",
+												"search"
+											],
+											"query": [
+												{
+													"key": "s",
+													"value": "Superman"
+												},
+												{
+													"key": "page",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1832"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"728-je5m70kNcmSxEP3ODKtG/1sDOO4\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 29 Oct 2020 02:49:49 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"statusCode\": 200,\n    \"payload\": {\n        \"Search\": [\n            {\n                \"Title\": \"LEGO Batman vs. Superman 2: Dawn of Just Desserts\",\n                \"Year\": \"2015\",\n                \"imdbID\": \"tt4984898\",\n                \"Type\": \"movie\",\n                \"Poster\": \"https://m.media-amazon.com/images/M/MV5BODlmNDE4OTQtZGMzOS00Y2U2LWE3MDYtMWVmNDliNGFkNTgxXkEyXkFqcGdeQXVyMTUyMjc4OQ@@._V1_SX300.jpg\"\n            },\n            {\n                \"Title\": \"Dark Superman\",\n                \"Year\": \"2016\",\n                \"imdbID\": \"tt5708320\",\n                \"Type\": \"movie\",\n                \"Poster\": \"https://m.media-amazon.com/images/M/MV5BNWVlNDA4MGUtNWZiMS00Mjk0LThmZmQtZDc2YmQ3NGE5NDQ3XkEyXkFqcGdeQXVyNjA3MDUwNjQ@._V1_SX300.jpg\"\n            },\n            {\n                \"Title\": \"Superman Serials: The Complete 1948 & 1950 Theatrical Serials Collection\",\n                \"Year\": \"1948–\",\n                \"imdbID\": \"tt3209172\",\n                \"Type\": \"series\",\n                \"Poster\": \"https://m.media-amazon.com/images/M/MV5BMjI4MTU1MzU5OF5BMl5BanBnXkFtZTgwNTE1MjAxMzE@._V1_SX300.jpg\"\n            },\n            {\n                \"Title\": \"Superman\",\n                \"Year\": \"1979\",\n                \"imdbID\": \"tt0297415\",\n                \"Type\": \"game\",\n                \"Poster\": \"N/A\"\n            },\n            {\n                \"Title\": \"Superman: The Early Years (Behind the Scenes of Smallville)\",\n                \"Year\": \"2002\",\n                \"imdbID\": \"tt0880491\",\n                \"Type\": \"movie\",\n                \"Poster\": \"N/A\"\n            },\n            {\n                \"Title\": \"CR: Superman Returns\",\n                \"Year\": \"2010\",\n                \"imdbID\": \"tt1675287\",\n                \"Type\": \"game\",\n                \"Poster\": \"https://m.media-amazon.com/images/M/MV5BMTY2NDg4NTI1MV5BMl5BanBnXkFtZTcwMTIyOTY3Mw@@._V1_SX300.jpg\"\n            },\n            {\n                \"Title\": \"First Flight: The Fleischer Superman Series\",\n                \"Year\": \"2006\",\n                \"imdbID\": \"tt1111795\",\n                \"Type\": \"movie\",\n                \"Poster\": \"https://m.media-amazon.com/images/M/MV5BNmZlOTI3OWYtYmI5NS00MWIzLTg1ODctZWUxNDE0NjJkMTMyL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTEyMDcwNw@@._V1_SX300.jpg\"\n            },\n            {\n                \"Title\": \"Superman\",\n                \"Year\": \"1971\",\n                \"imdbID\": \"tt0296885\",\n                \"Type\": \"movie\",\n                \"Poster\": \"N/A\"\n            },\n            {\n                \"Title\": \"Back in Blue: The 'Superman Returns' Movie Special\",\n                \"Year\": \"2006\",\n                \"imdbID\": \"tt0823171\",\n                \"Type\": \"movie\",\n                \"Poster\": \"N/A\"\n            },\n            {\n                \"Title\": \"Superman n'est pas juif (...et moi un peu)\",\n                \"Year\": \"2014\",\n                \"imdbID\": \"tt3696984\",\n                \"Type\": \"movie\",\n                \"Poster\": \"N/A\"\n            }\n        ],\n        \"totalResults\": \"248\",\n        \"Response\": \"True\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "get movie detail",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "access-token",
+										"type": "text",
+										"value": "{{access-token}}"
+									},
+									{
+										"key": "app-version",
+										"type": "text",
+										"value": "{{app-version}}"
+									},
+									{
+										"key": "platform",
+										"type": "text",
+										"value": "{{platform}}"
+									},
+									{
+										"key": "push-token",
+										"type": "text",
+										"value": "{{push-token}}"
+									}
+								],
+								"url": {
+									"raw": "{{proto}}://{{domain-url}}/movie/detail?t=superman",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{domain-url}}"
+									],
+									"path": [
+										"movie",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "t",
+											"value": "superman"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get movie detail",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "access-token",
+												"type": "text",
+												"value": "{{access-token}}"
+											},
+											{
+												"key": "app-version",
+												"type": "text",
+												"value": "{{app-version}}"
+											},
+											{
+												"key": "platform",
+												"type": "text",
+												"value": "{{platform}}"
+											},
+											{
+												"key": "push-token",
+												"type": "text",
+												"value": "{{push-token}}"
+											}
+										],
+										"url": {
+											"raw": "{{proto}}://{{domain-url}}/movie/detail?t=superman",
+											"protocol": "{{proto}}",
+											"host": [
+												"{{domain-url}}"
+											],
+											"path": [
+												"movie",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "t",
+													"value": "superman"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1266"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4f2-wLa8I9yZlY3pnvmopQKpb73Ftxw\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 29 Oct 2020 02:59:30 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"statusCode\": 200,\n    \"payload\": {\n        \"Title\": \"Superman\",\n        \"Year\": \"1978\",\n        \"Rated\": \"PG\",\n        \"Released\": \"15 Dec 1978\",\n        \"Runtime\": \"143 min\",\n        \"Genre\": \"Action, Adventure, Drama, Sci-Fi\",\n        \"Director\": \"Richard Donner\",\n        \"Writer\": \"Jerry Siegel (character created by: Superman), Joe Shuster (character created by: Superman), Mario Puzo (story), Mario Puzo (screenplay), David Newman (screenplay), Leslie Newman (screenplay), Robert Benton (screenplay)\",\n        \"Actors\": \"Marlon Brando, Gene Hackman, Christopher Reeve, Ned Beatty\",\n        \"Plot\": \"An alien orphan is sent from his dying planet to Earth, where he grows up to become his adoptive home's first and greatest superhero.\",\n        \"Language\": \"English\",\n        \"Country\": \"USA, UK, Canada, Switzerland\",\n        \"Awards\": \"Nominated for 3 Oscars. Another 17 wins & 20 nominations.\",\n        \"Poster\": \"https://m.media-amazon.com/images/M/MV5BMzA0YWMwMTUtMTVhNC00NjRkLWE2ZTgtOWEzNjJhYzNiMTlkXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg\",\n        \"Ratings\": [\n            {\n                \"Source\": \"Internet Movie Database\",\n                \"Value\": \"7.3/10\"\n            },\n            {\n                \"Source\": \"Rotten Tomatoes\",\n                \"Value\": \"94%\"\n            },\n            {\n                \"Source\": \"Metacritic\",\n                \"Value\": \"80/100\"\n            }\n        ],\n        \"Metascore\": \"80\",\n        \"imdbRating\": \"7.3\",\n        \"imdbVotes\": \"156,949\",\n        \"imdbID\": \"tt0078346\",\n        \"Type\": \"movie\",\n        \"DVD\": \"N/A\",\n        \"BoxOffice\": \"N/A\",\n        \"Production\": \"Dovemead Films\",\n        \"Website\": \"N/A\",\n        \"Response\": \"True\"\n    }\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -2161,7 +2428,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "8d2cc910-f55e-4d66-a70d-3c0b3e31f469",
+				"id": "24309363-8339-415f-9af4-ad1824575970",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2171,7 +2438,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "dc1602b4-25e5-4b92-80ee-f0d960cb1385",
+				"id": "cccc7538-baaa-4212-adc1-c597245c61f8",
 				"type": "text/javascript",
 				"exec": [
 					""
